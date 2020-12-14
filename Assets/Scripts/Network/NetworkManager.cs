@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Text;
+using Loggers;
 
 namespace Networking
 {
@@ -45,30 +46,38 @@ namespace Networking
             }
         }
         #endregion
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 8888;
+
+        public bool Connected => _connected;
+
+        private string _host = "127.0.0.1";
+        private int _port = 8888;
         private TcpClient _client;
-        private Thread clientReceiveThread;
-        private int _id;
+        private Thread _clientReceiveThread;
         private bool _connected = false;
         private NetworkStream _stream;
-        public static int Id { get => Instance._id; set => Instance._id = value; }
+
+        public void SetupManager(string host, int port)
+        {
+            _host = host;
+            _port = port;
+        }
         private void Start()
         {
-            Connection();
+            this.Print("d");
+            Connect();
         }
-        private void Connection()
+        public void Connect()
         {
             try
             {
                 _client = new TcpClient();
-                _client.Connect(host, port);
+                _client.Connect(_host, _port);
                 _connected = true;
                 _stream = _client.GetStream();
                 
-                clientReceiveThread = new Thread(ListenForData);
-                clientReceiveThread.IsBackground = true;
-                clientReceiveThread.Start();
+                _clientReceiveThread = new Thread(ListenForData);
+                _clientReceiveThread.IsBackground = true;
+                _clientReceiveThread.Start();
 
             }
             catch (Exception e)
@@ -84,7 +93,7 @@ namespace Networking
             {
                 while (true)
                 {		
-                    byte[] data = new byte[64]; // буфер для получаемых данных
+                    byte[] data = new byte[64];
                     var builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -95,7 +104,7 @@ namespace Networking
                     while (_stream.DataAvailable);
  
                     string message = builder.ToString();
-                    Debug.Log(message);//вывод сообщения
+                    Debug.Log(message);
                 }
             }
             catch (SocketException socketException)
@@ -113,21 +122,14 @@ namespace Networking
 
         private void OnDestroy()
         {
-            Debug.Log("destroy?");
             Disconnect();
         }
         private void Disconnect()
         {
             _connected = false;
-            _stream.Close();
             _client?.Close();
-            clientReceiveThread.Abort();
+            _clientReceiveThread.Abort();
         }
 
-        private void OnDisable()
-        {
-            Disconnect();
-        }
-        
     }
 }

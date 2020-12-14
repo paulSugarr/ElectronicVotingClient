@@ -1,0 +1,6 @@
+﻿{
+  "validator_ip": "127.0.0.1",
+  "validator_port": 8888,
+  "agency_ip": "127.0.0.1",
+  "port_port": 8889
+}
