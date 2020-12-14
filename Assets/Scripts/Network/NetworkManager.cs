@@ -6,130 +6,47 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Text;
+using ElectronicVoting.Extensions;
 using Loggers;
 
 namespace Networking
 {
-    public class NetworkManager : MonoBehaviour
+    public class NetworkManager
     {
-        #region [Singletone]
-        private static NetworkManager _instance;
-        public static NetworkManager Instance 
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    var instance = FindObjectOfType<NetworkManager>();
-                    if (instance != null)
-                    {
-                        Instance = instance;
-                    }
-                    else
-                    {
-                        Debug.LogError("No instance found");
-                    }
-                }
-                return _instance;
-            }
-            private set
-            {
-                _instance = value;
-            }
-        }
-        private void Awake()
-        {
-            if (Instance != this)
-            {
-                Debug.LogError("More than one instance");
-                Destroy(gameObject);
-            }
-        }
-        #endregion
+        private readonly TCPServer _validator;
+        private readonly TCPServer _agency;
 
-        public bool Connected => _connected;
-
-        private string _host = "127.0.0.1";
-        private int _port = 8888;
-        private TcpClient _client;
-        private Thread _clientReceiveThread;
-        private bool _connected = false;
-        private NetworkStream _stream;
-
-        public void SetupManager(string host, int port)
+        public NetworkManager(Dictionary<string, object> mainConfig)
         {
-            _host = host;
-            _port = port;
+            var validatorHost = mainConfig.GetString("validator_ip");
+            var validatorPort = mainConfig.GetInt("validator_port");
+            _validator = new TCPServer(validatorHost, validatorPort);
+            
+            var agencyHost = mainConfig.GetString("agency_ip");
+            var agencyPort = mainConfig.GetInt("agency_port");
+            _agency = new TCPServer(agencyHost, agencyPort);
         }
-        private void Start()
+
+        public void Disconnect()
         {
-            this.Print("d");
-            Connect();
+            _validator.Disconnect();
+            //_agency.Disconnect();
         }
+
         public void Connect()
         {
-            try
-            {
-                _client = new TcpClient();
-                _client.Connect(_host, _port);
-                _connected = true;
-                _stream = _client.GetStream();
-                
-                _clientReceiveThread = new Thread(ListenForData);
-                _clientReceiveThread.IsBackground = true;
-                _clientReceiveThread.Start();
-
-            }
-            catch (Exception e)
-            {
-                _connected = false;
-                Debug.Log("On client connect exception " + e);
-            }
+            _validator.Connect();
+            //_agency.Connect();
         }
 
-        private void ListenForData()
+        public bool IsConnected()
         {
-            try
-            {
-                while (true)
-                {		
-                    byte[] data = new byte[64];
-                    var builder = new StringBuilder();
-                    int bytes = 0;
-                    do
-                    {
-                        bytes = _stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
-                    }
-                    while (_stream.DataAvailable);
- 
-                    string message = builder.ToString();
-                    Debug.Log(message);
-                }
-            }
-            catch (SocketException socketException)
-            {
-                Disconnect();
-                Debug.LogError("Socket exception: " + socketException);
-            }
-        }
-        
-        public void SendMessageToServer(string message)
-        {
-            byte[] data = Encoding.UTF8.GetBytes(message);
-            _stream.Write(data, 0, data.Length);
+            return _agency.Connected && _validator.Connected;
         }
 
-        private void OnDestroy()
+        public void SendMessageToValidator(string message)
         {
-            Disconnect();
+            _validator.SendMessage(message);
         }
-        private void Disconnect()
-        {
-            _connected = false;
-            _client?.Close();
-            _clientReceiveThread.Abort();
-        }
-
     }
 }

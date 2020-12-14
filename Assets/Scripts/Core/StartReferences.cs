@@ -8,6 +8,6 @@ namespace Core
         [SerializeField] private NetworkManager _networkManager;
 
         public NetworkManager NetworkManager => _networkManager;
-        public string MainConfigPath => "Descriptions/main_config.json";
+        public string MainConfigPath => "Assets/Descriptions/main_config.json";
     }
 }

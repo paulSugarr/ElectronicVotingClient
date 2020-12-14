@@ -4,6 +4,7 @@ using System.IO;
 using Extensions;
 using UnityEngine;
 using fastJSON;
+using Loggers;
 using Networking;
 
 namespace Core
@@ -12,13 +13,14 @@ namespace Core
     {
         [SerializeField] private StartReferences _startReferences;
 
+        private Context _context;
         private Dictionary<string, object> _mainConfig;
         private void OnDestroy()
         {
             Deactivate();
         }
 
-        private void Start()
+        private void Awake()
         {
             Activate();
         }
@@ -31,7 +33,7 @@ namespace Core
         public void Activate()
         {
             _mainConfig = ReadMainConfig(_startReferences.MainConfigPath);
-            SetupNetworkManager(_mainConfig);
+            CreateContext(_mainConfig);
         }
 
         private Dictionary<string, object> ReadMainConfig(string configPath)
@@ -40,11 +42,9 @@ namespace Core
             return JSON.Parse(textData).ToDictionary();
         }
 
-        private void SetupNetworkManager(Dictionary<string, object> mainConfig)
+        private void CreateContext(Dictionary<string, object> mainConfig)
         {
-            var address = mainConfig.GetString("validator_ip");
-            var port = mainConfig.GetInt("validator_port");
-            NetworkManager.Instance.SetupManager(address, port);
+            _context = new Context(mainConfig);
         }
     }
 }
