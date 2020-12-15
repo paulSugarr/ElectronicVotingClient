@@ -56,7 +56,7 @@ namespace Networking
             {
                 while (true)
                 {		
-                    byte[] data = new byte[250];
+                    byte[] data = new byte[1024];
                     var builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -71,17 +71,24 @@ namespace Networking
                     {
                         throw new Exception("Short message");
                     }
-                    try
-                    {
-                        var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
-                        Debug.Log($"Incoming command type = {jsonData["key"]}");
-                        var command = Context.Instance.MainFactory.CreateInstance<ICommand>(jsonData);
-                        command.Execute();
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError($"Incorrect incoming command. Error = {e.Message}");
-                    }
+                    
+                    Debug.Log($"msg = {message}");
+                    var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
+                    Debug.Log($"Incoming command type = {jsonData["key"]}");
+                    var command = Context.Instance.MainFactory.CreateInstance<ICommand>(jsonData);
+                    command.Execute();
+                    
+                    // try
+                    // {
+                    //     var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
+                    //     Debug.Log($"Incoming command type = {jsonData["key"]}");
+                    //     var command = Context.Instance.MainFactory.CreateInstance<ICommand>(jsonData);
+                    //     command.Execute();
+                    // }
+                    // catch (Exception e)
+                    // {
+                    //     Debug.LogError($"Incorrect incoming command. Error = {e}");
+                    // }
 
                 }
             }

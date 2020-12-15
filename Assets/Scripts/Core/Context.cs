@@ -31,6 +31,7 @@ namespace Core
         public void InitializeElector(Dictionary<string, object> validatorKey)
         {
             Elector = new Elector(CryptographyProvider, validatorKey);
+            Elector.CreateNewKeys();
             Debug.Log("Elector created");
         }
     }

@@ -12,6 +12,7 @@ namespace Networking.Commands
             _types.Add("log", typeof(LogCommand));
             _types.Add("send_validator_key", typeof(SendValidatorKeyCommand));
             _types.Add("set_validator_key", typeof(SetValidatorKeyCommand));
+            _types.Add("set_elector_key", typeof(SetElectorKeyCommand));
         }
         public Type this[string id]
         {
