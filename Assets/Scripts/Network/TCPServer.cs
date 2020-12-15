@@ -74,7 +74,7 @@ namespace Networking
                     
                     Debug.Log($"msg = {message}");
                     var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
-                    Debug.Log($"Incoming command type = {jsonData["key"]}");
+                    Debug.Log($"Incoming command type = {jsonData["type"]}");
                     var command = Context.Instance.MainFactory.CreateInstance<ICommand>(jsonData);
                     command.Execute();
                     

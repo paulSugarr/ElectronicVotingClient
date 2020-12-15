@@ -36,8 +36,6 @@ namespace Core
             Elector = new Elector(CryptographyProvider, validatorKey);
             Elector.CreateNewKeys();
             Debug.Log("Elector created");
-            Debug.Log($"Validator's public key = {fastJSON.JSON.ToJSON(validatorKey)}");
-            Debug.Log($"Elector's public key = {fastJSON.JSON.ToJSON(Elector.PublicSignKey.GetChangeableCopy())}");
         }
     }
 }

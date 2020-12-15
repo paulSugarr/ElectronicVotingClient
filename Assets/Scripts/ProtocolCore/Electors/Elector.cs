@@ -8,6 +8,7 @@ namespace ElectronicVoting.Electors
     public class Elector
     {
         public IReadOnlyDictionary<string, object> PublicSignKey => _publicSignKey;
+        public int ChoiceIndex { get; private set; }
         
         private Dictionary<string, object> _validatorPublicKey;
         private Dictionary<string, object> _privateKey;
@@ -70,6 +71,7 @@ namespace ElectronicVoting.Electors
 
         public byte[] GetEncryptedBulletin(int choiceIndex)
         {
+            ChoiceIndex = choiceIndex;
             var bulletin = CreateBulletin(choiceIndex);
             var data = Encoding.UTF8.GetBytes(bulletin);
             var encryptB = _cryptographyProvider.Encrypt(_publicEncryptionKey, data);
