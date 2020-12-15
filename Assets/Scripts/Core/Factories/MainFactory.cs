@@ -14,7 +14,7 @@ namespace Factory
         {
             _factories = new Dictionary<Type, IFactory<object>>();
             
-            _factories.Add(typeof(CommandFactory), new CommandFactory());
+            _factories.Add(typeof(ICommand), new CommandFactory());
         }
         public T CreateInstance<T>(params object[] args)
         {

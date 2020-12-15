@@ -27,7 +27,7 @@ namespace Core
         
         public void Deactivate()
         {
-            throw new System.NotImplementedException();
+            Context.Instance.NetworkManager.Disconnect();
         }
 
         public void Activate()

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Core;
+using Extensions;
+using Networking.Commands;
 using UnityEngine;
 
 namespace Networking
@@ -63,7 +67,22 @@ namespace Networking
                     while (_stream.DataAvailable);
  
                     string message = builder.ToString();
-                    Debug.Log(message);
+                    if (message.Length <= 2)
+                    {
+                        throw new Exception("Short message");
+                    }
+                    try
+                    {
+                        var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
+                        Debug.Log($"Incoming command type = {jsonData["key"]}");
+                        var command = Context.Instance.MainFactory.CreateInstance<ICommand>(jsonData);
+                        command.Execute();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"Incorrect incoming command. Error = {e.Message}");
+                    }
+
                 }
             }
             catch (SocketException socketException)

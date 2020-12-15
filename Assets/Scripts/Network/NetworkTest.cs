@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Core;
+using Networking.Commands;
 
 public class NetworkTest : MonoBehaviour
 {
@@ -10,8 +11,12 @@ public class NetworkTest : MonoBehaviour
     {
         Context.Instance.NetworkManager.Connect();
     }
-    public void SendMessageToValidator(string message)
+    public void SendMessageToValidator()
     {
-        Context.Instance.NetworkManager.SendMessageToValidator(message);
+        // var commandInfo = new Dictionary<string, object>();
+        // commandInfo.Add("type", "send_validator_key");
+        var command = new SendValidatorKeyCommand();
+        var commandData = command.GetInfo();
+        Context.Instance.NetworkManager.SendMessageToValidator(fastJSON.JSON.ToJSON(commandData));
     }
 }

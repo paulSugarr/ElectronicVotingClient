@@ -10,6 +10,8 @@ namespace Networking.Commands
         public void RegisterTypes()
         {
             _types.Add("log", typeof(LogCommand));
+            _types.Add("send_validator_key", typeof(SendValidatorKeyCommand));
+            _types.Add("set_validator_key", typeof(SetValidatorKeyCommand));
         }
         public Type this[string id]
         {

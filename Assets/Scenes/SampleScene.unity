@@ -357,7 +357,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0418\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u044C \u043A\u043E\u043C\u043C\u0430\u043D\u0434\u0443"
+  m_Text: "\u041F\u0440\u043E\u0433\u043E\u043B\u043E\u0441\u043E\u0432\u0430\u0442\u044C
+    \u0437\u0430 0."
 --- !u!222 &289881185
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -894,7 +895,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1001342797}
         m_MethodName: SendMessageToValidator
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1108,7 +1109,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0422\u0435\u0441\u0442"
+  m_Text: "\u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043A\u043B\u044E\u0447
+    \u0432\u0430\u043B\u0438\u0434\u0430\u0442\u043E\u0440\u0430"
 --- !u!222 &1741444985
 CanvasRenderer:
   m_ObjectHideFlags: 0
