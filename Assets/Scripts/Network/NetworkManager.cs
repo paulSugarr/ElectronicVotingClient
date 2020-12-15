@@ -8,6 +8,7 @@ using System.Threading;
 using System.Text;
 using ElectronicVoting.Extensions;
 using Loggers;
+using Networking.Commands;
 
 namespace Networking
 {
@@ -47,6 +48,12 @@ namespace Networking
         public void SendMessageToValidator(string message)
         {
             _validator.SendMessage(message);
+        }
+        public void SendCommandToValidator(ICommand command)
+        {
+            var commandInfo = command.GetInfo();
+            var message = fastJSON.JSON.ToJSON(commandInfo);
+            SendMessageToValidator(message);
         }
     }
 }

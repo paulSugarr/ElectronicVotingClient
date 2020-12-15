@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ElectronicVoting.Extensions;
+using UnityEngine;
 using BigInt = System.Numerics.BigInteger;
 
 namespace ElectronicVoting.Cryptography

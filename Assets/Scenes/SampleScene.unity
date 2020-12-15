@@ -464,7 +464,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 443174711}
-        m_MethodName: TestCommand
+        m_MethodName: TestVote
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

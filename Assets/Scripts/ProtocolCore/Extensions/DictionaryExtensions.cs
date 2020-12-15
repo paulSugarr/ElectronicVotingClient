@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ElectronicVoting.Extensions
 {
@@ -37,6 +38,12 @@ namespace ElectronicVoting.Extensions
         public static byte[] GetByteArray(this Dictionary<string, object> target, string key)
         {
             return GetList(target, key).Cast<byte>().ToArray();
+        }
+        public static byte[] GetUTF8Key(this Dictionary<string, object> target, string key)
+        {
+            var str = target.GetString(key);
+            var result = Encoding.Unicode.GetBytes(str);
+            return result;
         }
         public static Dictionary<string, object> GetDictionary(this Dictionary<string, object> target, string key)
         {

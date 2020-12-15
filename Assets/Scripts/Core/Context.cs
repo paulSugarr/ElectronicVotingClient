@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ElectronicVoting.Cryptography;
 using ElectronicVoting.Electors;
+using ElectronicVoting.Extensions;
 using Factory;
 using Networking;
 using UnityEngine;
@@ -21,6 +22,8 @@ namespace Core
             {
                 throw new Exception("More than one singletone");
             }
+
+            fastJSON.JSON.Parameters.UseEscapedUnicode = true;
             _instance = this;
             CryptographyProvider = new RSACryptography();
             NetworkManager = new NetworkManager(mainConfig);
@@ -33,6 +36,8 @@ namespace Core
             Elector = new Elector(CryptographyProvider, validatorKey);
             Elector.CreateNewKeys();
             Debug.Log("Elector created");
+            Debug.Log($"Validator's public key = {fastJSON.JSON.ToJSON(validatorKey)}");
+            Debug.Log($"Elector's public key = {fastJSON.JSON.ToJSON(Elector.PublicSignKey.GetChangeableCopy())}");
         }
     }
 }
