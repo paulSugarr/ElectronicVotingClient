@@ -31,13 +31,13 @@ namespace Networking
         public void Disconnect()
         {
             _validator.Disconnect();
-            //_agency.Disconnect();
+            _agency.Disconnect();
         }
 
         public void Connect()
         {
             _validator.Connect();
-            //_agency.Connect();
+            _agency.Connect();
         }
 
         public bool IsConnected()

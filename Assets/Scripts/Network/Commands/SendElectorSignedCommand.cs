@@ -30,6 +30,7 @@ namespace Networking.Commands
 
         public void Execute()
         {
+            Debug.Log("validator signed");
             var signedByValidator = Signed;
             var elector = Context.Instance.Elector;
             var choiceIndex = elector.ChoiceIndex;
