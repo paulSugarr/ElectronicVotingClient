@@ -7,7 +7,7 @@ namespace Networking.Commands
 {
     public class VoteTest : MonoBehaviour
     {
-        private int _choiceIndex = 2;
+        private int _choiceIndex = 0;
         public void TestVote()
         {
             var elector = Context.Instance.Elector;

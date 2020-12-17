@@ -16,6 +16,8 @@ namespace Core
         public ICryptographyProvider CryptographyProvider { get; }
         public MainFactory MainFactory { get; }
         
+        public int[] Electors { get; set; }
+        
         public Context(Dictionary<string, object> mainConfig)
         {
             if (_instance != null)

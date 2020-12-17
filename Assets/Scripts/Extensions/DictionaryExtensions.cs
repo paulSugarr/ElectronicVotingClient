@@ -1,8 +1,10 @@
 ﻿﻿using System;
-using System.Collections.Generic;
+ using System.Collections;
+ using System.Collections.Generic;
 using System.Linq;
+ using Core;
 
-namespace Extensions
+ namespace Extensions
 {
     public static class DictionaryExtensions
     {
@@ -30,6 +32,18 @@ namespace Extensions
         {
             return (List<object>) target[key];
         }
+        public static object[] GetArray(this Dictionary<string, object> target, string key)
+        {
+            return (object[]) target[key];
+        }
+        public static List<T> GetList<T>(this Dictionary<string, object> target, string key)
+        {
+            return (List<T>) target[key];
+        }
+        public static ArrayList GetArrayList(this Dictionary<string, object> target, string key)
+        {
+            return (ArrayList) target[key];
+        }
         public static string[] GetStringArray(this Dictionary<string, object> target, string key)
         {
             return GetList(target, key).Cast<string>().ToArray();
@@ -37,6 +51,16 @@ namespace Extensions
         public static byte[] GetByteArray(this Dictionary<string, object> target, string key)
         {
             return GetList(target, key).Cast<byte>().ToArray();
+        }
+        public static int[] GetIntArray(this Dictionary<string, object> target, string key)
+        {
+            var list = target.GetList<object>(key);
+            var result = new List<int>();
+            foreach (var item in list)
+            {
+                result.Add(Convert.ToInt32(item));
+            }
+            return result.ToArray();
         }
         public static Dictionary<string, object> GetDictionary(this Dictionary<string, object> target, string key)
         {

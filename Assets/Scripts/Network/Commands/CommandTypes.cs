@@ -18,6 +18,8 @@ namespace Networking.Commands
             _types.Add("elector_encrypt_sign", typeof(SendEncryptedCommand));
             _types.Add("send_id", typeof(SendElectorIdCommand));
             _types.Add("send_private", typeof(SendElectorIdCommand));
+            _types.Add("electors", typeof(SendElectorsCommand));
+            _types.Add("get_electors", typeof(GetElectorsCommand));
         }
         public Type this[string id]
         {

@@ -34,6 +34,7 @@ namespace Networking.Commands
         {
             Debug.Log("ticket created");
             var context = Context.Instance;
+            Debug.Log(Id);
             var command = new SendPrivateCommand(Id, context.Elector.GetPrivateKey());
             context.NetworkManager.SendCommandToAgency(command);
         }
