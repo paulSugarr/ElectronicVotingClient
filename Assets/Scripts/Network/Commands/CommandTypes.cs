@@ -20,6 +20,8 @@ namespace Networking.Commands
             _types.Add("send_private", typeof(SendElectorIdCommand));
             _types.Add("electors", typeof(SendElectorsCommand));
             _types.Add("get_electors", typeof(GetElectorsCommand));
+            _types.Add("results", typeof(SendResultsCommand));
+            _types.Add("get_results", typeof(GetResultsCommand));
         }
         public Type this[string id]
         {

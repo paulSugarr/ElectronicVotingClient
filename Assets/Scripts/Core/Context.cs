@@ -15,8 +15,9 @@ namespace Core
         public Elector Elector { get; private set; } 
         public ICryptographyProvider CryptographyProvider { get; }
         public MainFactory MainFactory { get; }
-        
+
         public int[] Electors { get; set; }
+        public int[] Candidates { get; set; }
         
         public Context(Dictionary<string, object> mainConfig)
         {
