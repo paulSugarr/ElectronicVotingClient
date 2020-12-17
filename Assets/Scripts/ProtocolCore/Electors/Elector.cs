@@ -67,7 +67,7 @@ namespace ElectronicVoting.Electors
         /// <summary> Step 6 in E-voting protocol</summary>
         public Dictionary<string, object> GetPrivateKey()
         {
-            return _privateKey;
+            return _privateKey.GetCopy();
         }
 
         public byte[] GetEncryptedBulletin(int choiceIndex)

@@ -49,7 +49,7 @@ namespace ElectronicVoting.Extensions
         {
             return (Dictionary<string, object>)target[key];
         }
-        public static Dictionary<string, object> GetChangeableCopy(this IReadOnlyDictionary<string, object> target)
+        public static Dictionary<string, object> GetCopy(this IReadOnlyDictionary<string, object> target)
         {
             var result = new Dictionary<string, object>();
             foreach (var pair in target)

@@ -38,7 +38,7 @@ namespace Networking.Commands
             var signedEncrypted = elector.RemoveBlindEncryption(signedByValidator);
             var encryptedBulletin = elector.GetEncryptedBulletin(choiceIndex);
 
-            var encryptionKey = elector.PublicEncryptKey.GetChangeableCopy();
+            var encryptionKey = elector.PublicEncryptKey.GetCopy();
             var command = new SendEncryptedCommand(encryptedBulletin, signedEncrypted, encryptionKey);
             Context.Instance.NetworkManager.SendCommandToAgency(command);
         }

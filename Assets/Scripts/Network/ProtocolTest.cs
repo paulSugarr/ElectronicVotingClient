@@ -25,7 +25,7 @@ public class ProtocolTest : MonoBehaviour
     {
         var id = "paul";
         var key = Context.Instance.Elector.PublicSignKey;
-        var command = new SetElectorKeyCommand(id, key.GetChangeableCopy());
+        var command = new SetElectorKeyCommand(id, key.GetCopy());
         var commandData = command.GetInfo();
         Context.Instance.NetworkManager.SendMessageToValidator(fastJSON.JSON.ToJSON(commandData));
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core;
 using ElectronicVoting.Extensions;
 using UnityEngine;
 
@@ -32,6 +33,9 @@ namespace Networking.Commands
         public void Execute()
         {
             Debug.Log("ticket created");
+            var context = Context.Instance;
+            var command = new SendPrivateCommand(Id, context.Elector.GetPrivateKey());
+            context.NetworkManager.SendCommandToAgency(command);
         }
     }
 }

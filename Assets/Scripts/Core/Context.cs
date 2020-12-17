@@ -41,7 +41,7 @@ namespace Core
                 Elector.CreateNewKeys();
                 var blindedSigned = Elector.CreateBlindedSignedMessage(0);
                 var blinded = Elector.CreateBlindedMessage(0);
-                checkCrypto = CryptographyProvider.VerifyData(Elector.PublicSignKey.GetChangeableCopy(), blinded, blindedSigned);
+                checkCrypto = CryptographyProvider.VerifyData(Elector.PublicSignKey.GetCopy(), blinded, blindedSigned);
                 i++;
             }
 
