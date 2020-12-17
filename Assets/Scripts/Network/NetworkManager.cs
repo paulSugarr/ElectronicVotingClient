@@ -55,5 +55,16 @@ namespace Networking
             var message = fastJSON.JSON.ToJSON(commandInfo);
             SendMessageToValidator(message);
         }
+        
+        public void SendMessageToAgency(string message)
+        {
+            _agency.SendMessage(message);
+        }
+        public void SendCommandToAgency(ICommand command)
+        {
+            var commandInfo = command.GetInfo();
+            var message = fastJSON.JSON.ToJSON(commandInfo);
+            SendMessageToAgency(message);
+        }
     }
 }

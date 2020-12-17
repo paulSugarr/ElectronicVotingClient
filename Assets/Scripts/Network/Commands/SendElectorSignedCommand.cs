@@ -35,9 +35,11 @@ namespace Networking.Commands
             var elector = Context.Instance.Elector;
             var choiceIndex = elector.ChoiceIndex;
             
-            var signedValidatorUnBlind = elector.RemoveBlindEncryption(signedByValidator);
+            var signedEncrypted = elector.RemoveBlindEncryption(signedByValidator);
             var encryptedBulletin = elector.GetEncryptedBulletin(choiceIndex);
-            var signedEncryptedBulletin = elector.GetSignedEncryptedBulletin(choiceIndex);
+
+            var command = new SendEncryptedCommand(0, encryptedBulletin, signedEncrypted);
+            Context.Instance.NetworkManager.SendCommandToAgency(command);
         }
     }
 }
