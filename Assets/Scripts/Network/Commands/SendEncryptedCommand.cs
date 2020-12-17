@@ -8,12 +8,13 @@ namespace Networking.Commands
         public string Type { get; }
         private byte[] Encrypted { get; }
         private byte[] EncryptedSigned { get; }
-        private int AgencyId { get; }
+        public Dictionary<string, object> EncryptionKey { get; }
 
-        public SendEncryptedCommand(int agencyId, byte[] encrypted, byte[] encryptedSigned)
+
+        public SendEncryptedCommand(byte[] encrypted, byte[] encryptedSigned, Dictionary<string, object> publicKey)
         {
             Type = "elector_encrypt_sign";
-            AgencyId = agencyId;
+            EncryptionKey = publicKey;
             Encrypted = encrypted;
             EncryptedSigned = encryptedSigned;
         }
@@ -22,7 +23,7 @@ namespace Networking.Commands
             Type = "elector_encrypt_sign";
             Encrypted = System.Numerics.BigInteger.Parse(info.GetString("encrypted")).ToByteArray();
             EncryptedSigned = System.Numerics.BigInteger.Parse(info.GetString("signed")).ToByteArray();
-            AgencyId = info.GetInt("id");
+            EncryptionKey = info.GetDictionary("key");
         }
 
         public Dictionary<string, object> GetInfo()
@@ -31,7 +32,7 @@ namespace Networking.Commands
             result.Add("type", Type);
             result.Add("encrypted", new System.Numerics.BigInteger(Encrypted).ToString());
             result.Add("signed", new System.Numerics.BigInteger(EncryptedSigned).ToString());
-            result.Add("id", AgencyId);
+            result.Add("key", EncryptionKey);
             return result;
         }
         public void Execute()

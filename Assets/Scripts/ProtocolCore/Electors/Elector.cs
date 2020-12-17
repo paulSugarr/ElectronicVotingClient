@@ -8,6 +8,7 @@ namespace ElectronicVoting.Electors
     public class Elector
     {
         public IReadOnlyDictionary<string, object> PublicSignKey => _publicSignKey;
+        public IReadOnlyDictionary<string, object> PublicEncryptKey => _publicEncryptionKey;
         public int ChoiceIndex { get; private set; }
         
         private Dictionary<string, object> _validatorPublicKey;
