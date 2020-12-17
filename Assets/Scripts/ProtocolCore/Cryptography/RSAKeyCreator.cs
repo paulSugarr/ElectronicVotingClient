@@ -52,7 +52,7 @@ namespace ElectronicVoting.Cryptography
         public Dictionary<string, object> CreateBlindKey()
         {
             var rand = new Random(DateTimeOffset.UtcNow.Millisecond);
-            var r = rand.Next(1000000, 5000000);
+            var r = RandomPrime(16, rand);
             var result = new Dictionary<string, object>();
             result.Add("r", r.ToString());
             return result;

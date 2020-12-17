@@ -33,8 +33,18 @@ namespace Core
 
         public void InitializeElector(Dictionary<string, object> validatorKey)
         {
-            Elector = new Elector(CryptographyProvider, validatorKey);
-            Elector.CreateNewKeys();
+            var checkCrypto = false;
+            var i = 0;
+            while (!checkCrypto)
+            {
+                Elector = new Elector(CryptographyProvider, validatorKey);
+                Elector.CreateNewKeys();
+                var blindedSigned = Elector.CreateBlindedSignedMessage(0);
+                var blinded = Elector.CreateBlindedMessage(0);
+                checkCrypto = CryptographyProvider.VerifyData(Elector.PublicSignKey.GetChangeableCopy(), blinded, blindedSigned);
+                i++;
+            }
+
             Debug.Log("Elector created");
         }
     }
