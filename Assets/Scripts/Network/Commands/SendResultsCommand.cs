@@ -35,6 +35,7 @@ namespace Networking.Commands
         {
             Debug.Log($"candidates amount = {Candidates.Length}");
             Context.Instance.Candidates = Candidates;
+            Debug.Log($"First cand = {Context.Instance.Candidates[0]}");
         }
     }
 }

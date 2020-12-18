@@ -10,6 +10,7 @@ namespace Networking
         {
             var command = new GetResultsCommand();
             Context.Instance.NetworkManager.SendCommandToAgency(command);
+            Debug.Log("getting results");
         }
     }
 }

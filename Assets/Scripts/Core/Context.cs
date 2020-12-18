@@ -15,12 +15,12 @@ namespace Core
     {
         public NetworkManager NetworkManager { get; }
         public Elector Elector { get; private set; }
-        public string LoginId { get; set; } = "paul";
+        public string LoginId { get; set; }
         public ICryptographyProvider CryptographyProvider { get; }
         public MainFactory MainFactory { get; }
 
         public int[] Electors { get; set; }
-        public int[] Candidates { get; set; }
+        public int[] Candidates { get; set; } = {0, 0};
         
         public Context(Dictionary<string, object> mainConfig)
         {
@@ -53,8 +53,6 @@ namespace Core
             }
 
             LogIn();
-            UIController.ShowLoadingScreen(false);
-            UIController.Instance.MainContent = true;
             Debug.Log("Elector created");
         }
 

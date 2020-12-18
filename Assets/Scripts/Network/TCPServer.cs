@@ -6,6 +6,7 @@ using System.Threading;
 using Core;
 using Extensions;
 using Networking.Commands;
+using UI;
 using UnityEngine;
 
 namespace Networking
@@ -50,6 +51,7 @@ namespace Networking
             catch (Exception e)
             {
                 _isConnected = false;
+                UIController.Instance.ErrorConnectionWindow = true;
                 Debug.Log("On client connect exception " + e);
             }
         }

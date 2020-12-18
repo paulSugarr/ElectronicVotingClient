@@ -39,6 +39,8 @@ namespace UI
         public bool MainContent { get; set; } = false;
         public bool VoteAcceptanceWindow { get; set; } = false;
         public bool DeclineWindow { get; set; } = false;
+        public bool DeclineLoginWindow { get; set; } = false;
+        public bool ErrorConnectionWindow { get; set; } = false;
         public bool Loading = false;
 
         public static void ShowLoadingScreen(bool flag)
