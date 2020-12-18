@@ -9,6 +9,7 @@ using System.Text;
 using ElectronicVoting.Extensions;
 using Loggers;
 using Networking.Commands;
+using UI;
 
 namespace Networking
 {
@@ -16,6 +17,8 @@ namespace Networking
     {
         private readonly TCPServer _validator;
         private readonly TCPServer _agency;
+
+        private Thread _connectionThread;
 
         public NetworkManager(Dictionary<string, object> mainConfig)
         {
@@ -27,6 +30,10 @@ namespace Networking
             var agencyPort = mainConfig.GetInt("agency_port");
             _agency = new TCPServer(agencyHost, agencyPort);
         }
+        public void Activate()
+        {
+            _validator.Connected += OnValidatorConnect;
+        }
 
         public void Disconnect()
         {
@@ -36,13 +43,18 @@ namespace Networking
 
         public void Connect()
         {
-            _validator.Connect();
             _agency.Connect();
+            _validator.Connect();
+        }
+
+        public void StopConnecting()
+        {
+            _connectionThread.Join();
         }
 
         public bool IsConnected()
         {
-            return _agency.Connected && _validator.Connected;
+            return _agency.IsConnected && _validator.IsConnected;
         }
 
         public void SendMessageToValidator(string message)
@@ -66,5 +78,12 @@ namespace Networking
             var message = fastJSON.JSON.ToJSON(commandInfo);
             SendMessageToAgency(message);
         }
+
+        private void OnValidatorConnect()
+        {
+            var command = new SendValidatorKeyCommand();
+            SendCommandToValidator(command);
+        }
+        
     }
 }

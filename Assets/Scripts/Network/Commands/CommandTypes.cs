@@ -22,6 +22,7 @@ namespace Networking.Commands
             _types.Add("get_electors", typeof(GetElectorsCommand));
             _types.Add("results", typeof(SendResultsCommand));
             _types.Add("get_results", typeof(GetResultsCommand));
+            _types.Add("decline_vote", typeof(DeclineVoteCommand));
         }
         public Type this[string id]
         {

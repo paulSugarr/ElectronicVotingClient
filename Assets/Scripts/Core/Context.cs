@@ -5,6 +5,8 @@ using ElectronicVoting.Electors;
 using ElectronicVoting.Extensions;
 using Factory;
 using Networking;
+using Networking.Commands;
+using UI;
 using UnityEngine;
 
 namespace Core
@@ -12,7 +14,8 @@ namespace Core
     public class Context : Singletone<Context>
     {
         public NetworkManager NetworkManager { get; }
-        public Elector Elector { get; private set; } 
+        public Elector Elector { get; private set; }
+        public string LoginId { get; set; } = "paul";
         public ICryptographyProvider CryptographyProvider { get; }
         public MainFactory MainFactory { get; }
 
@@ -30,6 +33,7 @@ namespace Core
             _instance = this;
             CryptographyProvider = new RSACryptography();
             NetworkManager = new NetworkManager(mainConfig);
+            NetworkManager.Activate();
             MainFactory = new MainFactory();
             MainFactory.RegisterTypes();
         }
@@ -48,7 +52,19 @@ namespace Core
                 i++;
             }
 
+            LogIn();
+            UIController.ShowLoadingScreen(false);
+            UIController.Instance.MainContent = true;
             Debug.Log("Elector created");
+        }
+
+        private void LogIn()
+        {
+            var id = LoginId;
+            var key = Elector.PublicSignKey;
+            var command = new SetElectorKeyCommand(id, key.GetCopy());
+            var commandData = command.GetInfo();
+            NetworkManager.SendMessageToValidator(fastJSON.JSON.ToJSON(commandData));
         }
     }
 }

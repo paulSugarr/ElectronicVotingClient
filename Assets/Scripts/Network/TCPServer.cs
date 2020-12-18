@@ -12,14 +12,16 @@ namespace Networking
 {
     public class TCPServer
     {
-        public bool Connected => _connected;
+        public bool IsConnected => _isConnected;
         
         private readonly string _host;
         private readonly int _port;
         private TcpClient _client;
         private Thread _clientReceiveThread;
-        private bool _connected = false;
+        private bool _isConnected = false;
         private NetworkStream _stream;
+
+        public Action Connected;
 
 
         public TCPServer(string host, int port)
@@ -35,17 +37,19 @@ namespace Networking
             {
                 _client = new TcpClient();
                 _client.Connect(_host, _port);
-                _connected = true;
                 _stream = _client.GetStream();
-                
+
                 _clientReceiveThread = new Thread(ListenForData);
                 _clientReceiveThread.IsBackground = true;
                 _clientReceiveThread.Start();
 
+                Connected?.Invoke();
+                _isConnected = true;
+
             }
             catch (Exception e)
             {
-                _connected = false;
+                _isConnected = false;
                 Debug.Log("On client connect exception " + e);
             }
         }
@@ -108,7 +112,7 @@ namespace Networking
 
         public void Disconnect()
         {
-            _connected = false;
+            _isConnected = false;
             _client?.Close();
             _clientReceiveThread.Abort();
         }

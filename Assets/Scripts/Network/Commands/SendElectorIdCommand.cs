@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core;
 using ElectronicVoting.Extensions;
+using UI;
 using UnityEngine;
 
 namespace Networking.Commands
@@ -33,6 +34,7 @@ namespace Networking.Commands
         public void Execute()
         {
             Debug.Log("ticket created");
+            UIController.Instance.VoteAcceptanceWindow = true;
             var context = Context.Instance;
             Debug.Log(Id);
             var command = new SendPrivateCommand(Id, context.Elector.GetPrivateKey());
